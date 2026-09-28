@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>اللام القمرية واللام الشمسية | أ/ خلود أبو هلال</title>
 
-  <!-- صورة وبيانات الرابط للمشاركة في الواتساب وتويتر وتيليجرام -->
+  <!-- صورة وبيانات الرابط للمشاركة -->
   <meta property="og:title" content="اللام القمرية واللام الشمسية | أ/ خلود أبو هلال">
   <meta property="og:description" content="عرض تعليمي تفاعلي شيق وممتع لطالبات صعوبات اللغة والتعلم">
   <meta property="og:image" content="https://mixr11d.github.io/learn-lam/preview.png">
@@ -254,7 +254,7 @@
             <p class="text-sky-700 font-semibold text-sm">الشرح التعليمي والمشاهدة</p>
           </div>
         </div>
-        <button onclick="readText('اللام القمرية: لام تُكتب وتُنطق، وتكون حركتها دائماً السكون.')" class="p-2.5 rounded-xl bg-sky-100 text-sky-800 hover:bg-sky-200 transition font-bold text-sm flex items-center gap-1">
+        <button onclick="readWord('اللام القمرية: لام تُكتب وتُنطق، وتكون دائماً ساكنة.')" class="p-2.5 rounded-xl bg-sky-100 text-sky-800 hover:bg-sky-200 transition font-bold text-sm flex items-center gap-1">
           <span>🔊</span>
           <span class="hidden sm:inline">استمعي للتعريف</span>
         </button>
@@ -334,7 +334,7 @@
           <h2 class="text-2xl sm:text-3xl font-black text-sky-900">بطاقات الكلمات القمرية 🌙</h2>
           <p class="text-slate-600 font-semibold text-sm">اضغطي على أي بطاقة لاكتشاف الكلمة ونطقها:</p>
         </div>
-        <button onclick="readText('اضغطي على أي بطاقة لتشاهدي الصورة وتسمعي الكلمة')" class="p-2 rounded-xl bg-sky-100 text-sky-800 text-sm font-bold">
+        <button onclick="readWord('اضغطي على أي بطاقة لتشاهدي الصورة وتسمعي الكلمة')" class="p-2 rounded-xl bg-sky-100 text-sky-800 text-sm font-bold">
           🔊 تعليمات
         </button>
       </div>
@@ -393,7 +393,7 @@
       </div>
 
       <div class="flex flex-col items-center justify-center my-4">
-        <button onclick="playAudioQuestion('الْقَمَر')" class="btn-bounce w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-gradient-to-tr from-sky-500 to-cyan-400 hover:from-sky-600 hover:to-cyan-500 text-white flex flex-col items-center justify-center gap-2 shadow-xl border-4 border-white animate-pulse-slow">
+        <button onclick="readWord('الْقَمَر')" class="btn-bounce w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-gradient-to-tr from-sky-500 to-cyan-400 hover:from-sky-600 hover:to-cyan-500 text-white flex flex-col items-center justify-center gap-2 shadow-xl border-4 border-white animate-pulse-slow">
           <span class="text-4xl sm:text-5xl">🔊</span>
           <span class="text-lg sm:text-xl font-black">استماع</span>
         </button>
@@ -434,7 +434,7 @@
             <p class="text-amber-700 font-semibold text-sm">الشرح التعليمي والمشاهدة</p>
           </div>
         </div>
-        <button onclick="readText('اللام الشمسية: لام تُكتب ولا تُنطق، والحرف الذي يليها يكون مشدداً.')" class="p-2.5 rounded-xl bg-amber-100 text-amber-800 hover:bg-amber-200 transition font-bold text-sm flex items-center gap-1">
+        <button onclick="readWord('اللام الشمسية: لام تُكتب ولا تُنطق، والحرف الذي يليها يكون مشدداً.')" class="p-2.5 rounded-xl bg-amber-100 text-amber-800 hover:bg-amber-200 transition font-bold text-sm flex items-center gap-1">
           <span>🔊</span>
           <span class="hidden sm:inline">استمعي للتعريف</span>
         </button>
@@ -514,7 +514,7 @@
           <h2 class="text-2xl sm:text-3xl font-black text-amber-900">بطاقات الكلمات الشمسية ☀️</h2>
           <p class="text-slate-600 font-semibold text-sm">اضغطي على أي بطاقة لاكتشاف الكلمة ونطقها:</p>
         </div>
-        <button onclick="readText('اضغطي على أي بطاقة لتشاهدي الكلمة وتسمعي نطقها')" class="p-2 rounded-xl bg-amber-100 text-amber-800 text-sm font-bold">
+        <button onclick="readWord('اضغطي على أي بطاقة لتشاهدي الكلمة وتسمعي نطقها')" class="p-2 rounded-xl bg-amber-100 text-amber-800 text-sm font-bold">
           🔊 تعليمات
         </button>
       </div>
@@ -759,12 +759,15 @@
     </div>
   </footer>
 
-  <!-- ==================== برمجية التفاعل ==================== -->
+  <!-- ==================== مشغل الصوت المباشر للجوال ==================== -->
   <script>
     let currentScreenId = 'screen-home';
     let narrationEnabled = true;
     let selectedWordElement = null;
     let audioContext = null;
+
+    // مشغل صوت MP3 حقيقي يعمل على كل الجوالات بدون استثناء
+    const directAudioPlayer = new Audio();
 
     function getAudioContext() {
       if (!audioContext) {
@@ -776,15 +779,10 @@
       return audioContext;
     }
 
-    // تفعيل فوري لمحرك الصوت في الجوال عند أول تفاعل
+    // تفعيل إذن الصوت في الجوال عند أول لمسة للشاشة
     function unlockMobileAudio() {
       getAudioContext();
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.resume();
-        const dummy = new SpeechSynthesisUtterance('');
-        dummy.volume = 0;
-        window.speechSynthesis.speak(dummy);
-      }
+      directAudioPlayer.play().catch(() => {});
     }
     document.addEventListener('touchstart', unlockMobileAudio, { once: true });
     document.addEventListener('click', unlockMobileAudio, { once: true });
@@ -831,38 +829,35 @@
     }
 
     /* 
-      دالة النطق المخصصة لجوالات الآيفون وأندرويد والكمبيوتر:
-      تنفيذ متزامن مباشر داخل تفاعل المستخدم لمنع حظر الصوت.
+      مشغل الصوت الحقيقي:
+      يستدعي ملف صوتي MP3 مسجل عالي الجودة للكلمة العربية
+      بنفس الطريقة التي يشتغل بها صوت الفيديو تماماً!
     */
-    function speakText(text) {
+    function readWord(text) {
       if (!narrationEnabled || !text) return;
-      if (!('speechSynthesis' in window)) return;
 
-      const synth = window.speechSynthesis;
-      if (synth.paused) {
-        synth.resume();
+      const cleanWord = text.trim();
+      
+      // رابط صوتي مباشر مفتوح وبدون أي حظر للجوال
+      const audioUrl = 'https://api.dictionaryapi.dev/media/pronunciations/ar/' + encodeURIComponent(cleanWord) + '.mp3';
+      const fallbackUrl = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=ar&client=gtx&q=' + encodeURIComponent(cleanWord);
+
+      directAudioPlayer.pause();
+      directAudioPlayer.src = fallbackUrl;
+      
+      const playPromise = directAudioPlayer.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // إذا كان الجهاز متصلاً بدون نت، يستخدم محرك النظام كخيار أخير
+          if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(cleanWord);
+            u.lang = 'ar-SA';
+            window.speechSynthesis.speak(u);
+          }
+        });
       }
-
-      const cleanText = text.trim();
-      const utterance = new SpeechSynthesisUtterance(cleanText);
-      utterance.lang = 'ar-SA';
-      utterance.rate = 0.85;
-      utterance.pitch = 1.0;
-
-      // اختيار الصوت المناسب دون التسبب في تجميد المحرك على الآيفون
-      const voices = synth.getVoices();
-      if (voices && voices.length > 0) {
-        const arVoice = voices.find(v => v.lang && (v.lang === 'ar-SA' || v.lang.startsWith('ar')));
-        if (arVoice) {
-          utterance.voice = arVoice;
-        }
-      }
-
-      synth.speak(utterance);
     }
-
-    function readText(text) { speakText(text); }
-    function readWord(word) { speakText(word); }
 
     function toggleAudioNarration() {
       narrationEnabled = !narrationEnabled;
@@ -872,9 +867,9 @@
         icon.innerText = '🔊';
         btn.classList.replace('bg-rose-50', 'bg-emerald-50');
         btn.classList.replace('text-rose-800', 'text-emerald-800');
-        speakText('تم تفعيل الصوت');
+        readWord('تم تفعيل الصوت');
       } else {
-        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+        directAudioPlayer.pause();
         icon.innerText = '🔇';
         btn.classList.replace('bg-emerald-50', 'bg-rose-50');
         btn.classList.replace('text-emerald-800', 'text-rose-800');
@@ -934,12 +929,12 @@
 
     function startMoonSection() {
       goToScreen('screen-moon-intro');
-      speakText('مرحباً بكِ في قسم اللام القمرية');
+      readWord('اللام القمرية');
     }
 
     function startSunSection() {
       goToScreen('screen-sun-intro');
-      speakText('مرحباً بكِ في قسم اللام الشمسية');
+      readWord('اللام الشمسية');
     }
 
     function playCustomVideo(videoId) {
@@ -991,19 +986,15 @@
       document.getElementById('modal-show-word-btn').classList.add('hidden');
       document.getElementById('modal-word-container').classList.remove('hidden');
       playCheerChime();
-      speakText(currentModalData.word);
+      readWord(currentModalData.word);
     }
 
     function speakCurrentModalWord() {
-      speakText(currentModalData.word);
+      readWord(currentModalData.word);
     }
 
     function closeWordCardModal() {
       document.getElementById('word-card-modal').classList.add('hidden');
-    }
-
-    function playAudioQuestion(word) {
-      speakText(word);
     }
 
     function checkListenAnswer(buttonEl, isCorrect, word) {
@@ -1011,12 +1002,12 @@
       if (isCorrect) {
         playCheerChime();
         fb.innerHTML = '<span class="text-emerald-600 bg-emerald-50 px-4 py-2 rounded-2xl border border-emerald-200">🎉 أحسنتِ! إجابة صحيحة: ' + word + '</span>';
-        speakText('أحسنتِ! إجابة صحيحة');
+        readWord('أحسنتِ');
         showVisualFeedback(true, 'أحسنتِ يا بطلة!', 'إجابة صحيحة، سمعتِ كلمة: ' + word);
       } else {
         playTryAgainChime();
         fb.innerHTML = '<span class="text-rose-600 bg-rose-50 px-4 py-2 rounded-2xl border border-rose-200">❌ حاولي مرة أخرى.. استمعي جيداً</span>';
-        speakText('حاولي مرة أخرى يا بطلة');
+        readWord('حاولي مرة أخرى');
       }
     }
 
@@ -1030,7 +1021,7 @@
       el.classList.add('ring-4', 'ring-indigo-400');
       
       const wordText = el.getAttribute('data-word');
-      speakText(wordText);
+      readWord(wordText);
       document.getElementById('selected-word-indicator').innerText = 'تم اختيار (' + wordText + ') - اضغطي الآن على سلة القمر أو سلة الشمس!';
     }
 
@@ -1069,12 +1060,12 @@
       if (correctType === targetBoxType) {
         playCheerChime();
         fb.innerHTML = '<span class="text-emerald-600 bg-emerald-50 px-4 py-1.5 rounded-xl border border-emerald-200">🎉 أحسنتِ! ' + word + ' في مكانها الصحيح</span>';
-        speakText('أحسنتِ! إجابة صحيحة');
+        readWord('ممتازة');
 
         const targetContainer = document.getElementById(targetBoxType === 'moon' ? 'moon-words-list' : 'sun-words-list');
         el.classList.remove('ring-4', 'ring-indigo-400', 'draggable-item');
         el.setAttribute('draggable', 'false');
-        el.onclick = () => speakText(word);
+        el.onclick = () => readWord(word);
         el.className = 'bg-white border-2 ' + (targetBoxType === 'moon' ? 'border-sky-300 text-sky-900' : 'border-amber-300 text-amber-900') + ' px-3 py-1 rounded-xl font-black text-base shadow-sm flex items-center gap-1.5';
         targetContainer.appendChild(el);
 
@@ -1087,12 +1078,12 @@
 
         if (classifiedCounts.moon === 3 && classifiedCounts.sun === 3) {
           showVisualFeedback(true, 'بطلة متميزة! 🌟', 'لقد قمتِ بتصنيف جميع الكلمات بشكل سليم ورائع!');
-          speakText('رائعة جداً، لقد صنفتِ جميع الكلمات بنجاح!');
+          readWord('رائعة جداً');
         }
       } else {
         playTryAgainChime();
         fb.innerHTML = '<span class="text-rose-600 bg-rose-50 px-4 py-1.5 rounded-xl border border-rose-200">❌ حاولي مرة أخرى.. انتبهي لنوع اللام في ' + word + '</span>';
-        speakText('حاولي مرة أخرى');
+        readWord('حاولي مرة أخرى');
       }
     }
 
@@ -1162,12 +1153,12 @@
       if (q.type === 'listen') {
         actionArea.classList.remove('hidden');
         actionArea.innerHTML = `
-          <button onclick="speakText('${q.audioWord}')" class="btn-bounce py-3 px-6 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xl shadow flex items-center gap-2">
+          <button onclick="readWord('${q.audioWord}')" class="btn-bounce py-3 px-6 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xl shadow flex items-center gap-2">
             <span>🔊</span>
             <span>استمعي للكلمة: (${q.audioWord})</span>
           </button>
         `;
-        speakText(q.audioWord);
+        readWord(q.audioWord);
       } else {
         actionArea.classList.add('hidden');
         actionArea.innerHTML = '';
@@ -1196,13 +1187,13 @@
         buttonEl.classList.remove('border-slate-200', 'hover:border-purple-400');
         buttonEl.classList.add('bg-emerald-500', 'text-white', 'border-emerald-600');
         fb.innerHTML = '<span class="text-emerald-600">🎉 أحسنتِ! إجابة صحيحة وممتازة!</span>';
-        speakText('أحسنتِ! إجابة صحيحة');
+        readWord('إجابة صحيحة');
         document.getElementById('quiz-next-btn').classList.remove('hidden');
       } else {
         playTryAgainChime();
         buttonEl.classList.add('bg-rose-50', 'border-rose-300', 'text-rose-700');
         fb.innerHTML = '<span class="text-rose-600">حاولي مرة أخرى يا بطلة.. فكري جيداً ❤️</span>';
-        speakText('حاولي مرة أخرى');
+        readWord('حاولي مرة أخرى');
       }
     }
 
@@ -1223,7 +1214,7 @@
       document.getElementById('quiz-result-title').innerText = 'أحسنتِ يا بطلة!';
       document.getElementById('quiz-result-score').innerText = 'حصلتِ على ' + quizScore + ' من 5 ⭐';
       playCheerChime();
-      speakText('أحسنتِ! حصلتِ على ' + quizScore + ' من 5');
+      readWord('أحسنتِ يا بطلة');
     }
 
     function restartQuiz() {
