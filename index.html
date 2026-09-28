@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>اللام القمرية واللام الشمسية | أ/ خلود أبو هلال</title>
   
-  <!-- خطوط عربية واضحة ومحببة للأطفال -->
+  <!-- خط عربي واضح ومريح للعين وللطالبات -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   
-  <!-- مكتبة Tailwind CSS -->
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -20,26 +20,8 @@
             sans: ['Tajawal', 'system-ui', 'sans-serif'],
           },
           colors: {
-            moon: {
-              50: '#f0f9ff',
-              100: '#e0f2fe',
-              200: '#bae6fd',
-              400: '#38bdf8',
-              500: '#0284c7',
-              600: '#0369a1',
-              800: '#075985',
-              900: '#0c4a6e',
-            },
-            sun: {
-              50: '#fffbeb',
-              100: '#fef3c7',
-              200: '#fde68a',
-              400: '#fbbf24',
-              500: '#f59e0b',
-              600: '#d97706',
-              800: '#92400e',
-              900: '#78350f',
-            }
+            moon: { 50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd', 500: '#0284c7', 600: '#0369a1', 900: '#0c4a6e' },
+            sun: { 50: '#fffbeb', 100: '#fef3c7', 200: '#fde68a', 500: '#f59e0b', 600: '#d97706', 900: '#78350f' }
           },
           boxShadow: {
             'kid': '0 8px 0 rgba(0,0,0,0.12)',
@@ -59,7 +41,6 @@
       min-height: 100vh;
     }
 
-    /* تأثيرات الحركة اللطيفة */
     @keyframes gentleFloat {
       0%, 100% { transform: translateY(0px) rotate(0deg); }
       50% { transform: translateY(-8px) rotate(1deg); }
@@ -91,7 +72,6 @@
       transform: scale(1.02);
     }
 
-    /* تخصيص إطار الفيديو التعليمي */
     .video-frame {
       aspect-ratio: 16 / 9;
       background-color: #0f172a;
@@ -125,13 +105,12 @@
 
 <body class="flex flex-col justify-between min-h-screen text-slate-800 antialiased p-2 sm:p-4 md:p-6">
 
-  <!-- ==================== رأس الصفحة العام ==================== -->
+  <!-- ==================== رأس الصفحة ==================== -->
   <header class="w-full max-w-6xl mx-auto bg-white/90 backdrop-blur-md rounded-2xl shadow-sm border border-slate-200/80 p-3 sm:p-4 mb-3 transition-all">
     <div class="flex flex-wrap items-center justify-between gap-3">
       
-      <!-- عنوان ورسالة المعلمة -->
       <div class="flex items-center gap-3">
-        <div class="w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-amber-100 flex items-center justify-center text-2xl shadow-inner border border-amber-200">
+        <div class="w-11 h-11 rounded-2xl bg-amber-100 flex items-center justify-center text-2xl shadow-inner border border-amber-200">
           ✨
         </div>
         <div>
@@ -143,13 +122,12 @@
         </div>
       </div>
 
-      <!-- أزرار التحكم العلوية السريعة -->
       <div class="flex items-center gap-2">
-        <button id="nav-btn-home" onclick="goToScreen('screen-home')" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm flex items-center gap-1.5 transition">
+        <button onclick="goToScreen('screen-home')" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm flex items-center gap-1.5 transition">
           <span>🏠</span>
           <span>الرئيسية</span>
         </button>
-        <button onclick="toggleAudioNarration()" id="narration-toggle-btn" class="px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-sm flex items-center gap-1 transition" title="تشغيل / كتم الصوت التلقائي">
+        <button onclick="toggleAudioNarration()" id="narration-toggle-btn" class="px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-sm flex items-center gap-1 transition">
           <span id="narration-icon">🔊</span>
           <span class="hidden sm:inline">نطق الكلمات</span>
         </button>
@@ -159,26 +137,25 @@
       </div>
     </div>
 
-    <!-- شريط التقدم التعليمي -->
     <div id="progress-container" class="mt-3 pt-3 border-t border-slate-100 hidden">
       <div class="flex items-center justify-between text-xs sm:text-sm font-bold text-slate-500 overflow-x-auto gap-1 pb-1">
         <span id="step-def" class="px-2.5 py-1 rounded-lg bg-slate-100 transition whitespace-nowrap">1. الشرح والفيديو</span>
         <span class="text-slate-300">←</span>
         <span id="step-cards" class="px-2.5 py-1 rounded-lg bg-slate-100 transition whitespace-nowrap">2. البطاقات</span>
         <span class="text-slate-300">←</span>
-        <span id="step-listen" class="px-2.5 py-1 rounded-lg bg-slate-100 transition whitespace-nowrap">3. اسمعي</span>
+        <span id="step-listen" class="px-2.5 py-1 rounded-lg bg-slate-100 transition whitespace-nowrap">3. الاستماع</span>
         <span class="text-slate-300">←</span>
-        <span id="step-sort" class="px-2.5 py-1 rounded-lg bg-slate-100 transition whitespace-nowrap">4. صنفي</span>
+        <span id="step-sort" class="px-2.5 py-1 rounded-lg bg-slate-100 transition whitespace-nowrap">4. التصنيف والتحدي</span>
         <span class="text-slate-300">←</span>
-        <span id="step-quiz" class="px-2.5 py-1 rounded-lg bg-slate-100 transition whitespace-nowrap">5. التحدي والاختبار</span>
+        <span id="step-quiz" class="px-2.5 py-1 rounded-lg bg-slate-100 transition whitespace-nowrap">5. الاختبار الختامي</span>
       </div>
     </div>
   </header>
 
-  <!-- ==================== الحاوية الرئيسية ==================== -->
+  <!-- ==================== المحتوى الرئيسي ==================== -->
   <main class="w-full max-w-6xl mx-auto flex-1 flex flex-col justify-center items-center">
 
-    <!-- 1. الشاشة الرئيسية (Home) -->
+    <!-- 1. الشاشة الرئيسية -->
     <div id="screen-home" class="app-screen active w-full flex-col items-center justify-center text-center p-4 sm:p-8 bg-white/90 backdrop-blur-md rounded-3xl shadow-xl border border-white">
       
       <div class="inline-flex items-center gap-2 bg-gradient-to-r from-sky-100 to-amber-100 text-slate-700 px-5 py-2 rounded-full font-bold text-sm sm:text-base mb-4 shadow-sm border border-slate-200/60">
@@ -195,7 +172,6 @@
 
       <!-- شخصيات كرتونية (القمر والشمس) -->
       <div class="flex flex-wrap justify-center items-center gap-6 sm:gap-14 mb-8">
-        <!-- شخصية القمر -->
         <div class="cursor-pointer group flex flex-col items-center" onclick="startMoonSection()">
           <div class="w-28 h-28 sm:w-36 sm:h-36 bg-gradient-to-b from-sky-100 to-sky-300 rounded-full flex items-center justify-center shadow-lg border-4 border-white animate-float relative overflow-hidden group-hover:scale-105 transition">
             <svg class="w-20 h-20 text-sky-800" viewBox="0 0 100 100" fill="currentColor">
@@ -212,19 +188,14 @@
           <span class="mt-3 font-extrabold text-sky-900 text-lg sm:text-xl bg-sky-100 px-4 py-1 rounded-xl">صديقنا القمر 🌙</span>
         </div>
 
-        <!-- شخصية الشمس -->
         <div class="cursor-pointer group flex flex-col items-center" onclick="startSunSection()">
           <div class="w-28 h-28 sm:w-36 sm:h-36 bg-gradient-to-b from-amber-200 to-amber-400 rounded-full flex items-center justify-center shadow-lg border-4 border-white animate-pulse-slow relative group-hover:scale-105 transition">
             <svg class="w-24 h-24 text-amber-500" viewBox="0 0 100 100" fill="currentColor">
               <g stroke="#f59e0b" stroke-width="4" stroke-linecap="round">
-                <line x1="50" y1="5" x2="50" y2="15" />
-                <line x1="50" y1="85" x2="50" y2="95" />
-                <line x1="5" y1="50" x2="15" y2="50" />
-                <line x1="85" y1="50" x2="95" y2="50" />
-                <line x1="18" y1="18" x2="26" y2="26" />
-                <line x1="74" y1="74" x2="82" y2="82" />
-                <line x1="18" y1="82" x2="26" y2="74" />
-                <line x1="74" y1="26" x2="82" y2="18" />
+                <line x1="50" y1="5" x2="50" y2="15" /><line x1="50" y1="85" x2="50" y2="95" />
+                <line x1="5" y1="50" x2="15" y2="50" /><line x1="85" y1="50" x2="95" y2="50" />
+                <line x1="18" y1="18" x2="26" y2="26" /><line x1="74" y1="74" x2="82" y2="82" />
+                <line x1="18" y1="82" x2="26" y2="74" /><line x1="74" y1="26" x2="82" y2="18" />
               </g>
               <circle cx="50" cy="50" r="32" fill="#fde047"/>
               <circle cx="40" cy="44" r="4.5" fill="#92400e"/>
@@ -240,22 +211,20 @@
         </div>
       </div>
 
-      <!-- البوابات الثلاث الرئيسية للتنقل -->
+      <!-- أزرار الاختيار الرئيسية -->
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-3xl mb-4">
-        <!-- زر اللام القمرية -->
         <button onclick="startMoonSection()" class="btn-bounce w-full sm:w-1/2 py-4 px-6 rounded-2xl bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white font-extrabold text-xl shadow-kid border-b-4 border-sky-800 flex items-center justify-center gap-3">
           <span class="text-2xl">🌙</span>
           <span>قسم اللام القمرية</span>
         </button>
 
-        <!-- زر اللام الشمسية -->
         <button onclick="startSunSection()" class="btn-bounce w-full sm:w-1/2 py-4 px-6 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-extrabold text-xl shadow-kid border-b-4 border-amber-800 flex items-center justify-center gap-3">
           <span class="text-2xl">☀️</span>
           <span>قسم اللام الشمسية</span>
         </button>
       </div>
 
-      <!-- زر بدء التحدي والأنشطة مباشرة -->
+      <!-- زر بدء التحدي والأنشطة -->
       <div class="w-full max-w-3xl">
         <button onclick="goToScreen('screen-classify')" class="btn-bounce w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-indigo-600 hover:opacity-95 text-white font-black text-xl shadow-kid border-b-4 border-emerald-800 flex items-center justify-center gap-3">
           <span class="text-3xl">🎯</span>
@@ -264,11 +233,11 @@
       </div>
 
       <p class="text-slate-500 text-xs sm:text-sm mt-6 font-bold">
-        💡 مخصص ومناسب لطالبات صعوبات اللغة والتعلم — نصوص واضحة وأصوات مساعدة وأنشطة ممتعة.
+        💡 مخصص ومناسب لطالبات صعوبات اللغة والتعلم — نصوص واضحة وأصوات مساعدة وتصميم متجاوب.
       </p>
     </div>
 
-    <!-- 2. شاشة تعريف اللام القمرية وفيديو القمر -->
+    <!-- 2. قسم اللام القمرية (الشريحة الأولى: الشرح + اسم المعلمة + الفيديو) -->
     <div id="screen-moon-intro" class="app-screen w-full flex-col bg-white/95 rounded-3xl p-4 sm:p-7 shadow-xl border border-sky-100">
       <div class="flex items-center justify-between pb-3 border-b border-sky-100 mb-4">
         <div class="flex items-center gap-3">
@@ -278,19 +247,19 @@
             <p class="text-sky-700 font-semibold text-sm">الشرح التعليمي والمشاهدة</p>
           </div>
         </div>
-        <button onclick="readText('اللام القمرية: لام تُكتب وتُنطق، وتكون حركتها السكون.')" class="p-2.5 rounded-xl bg-sky-100 text-sky-800 hover:bg-sky-200 transition font-bold text-sm flex items-center gap-1">
+        <button onclick="readText('اللام القمرية: لام تُكتب وتُنطق، وتكون حركتها دائماً السكون.')" class="p-2.5 rounded-xl bg-sky-100 text-sky-800 hover:bg-sky-200 transition font-bold text-sm flex items-center gap-1">
           <span>🔊</span>
           <span class="hidden sm:inline">استمعي للتعريف</span>
         </button>
       </div>
 
-      <!-- نص الشرح والقاعدة -->
+      <!-- الشرح -->
       <div class="bg-sky-50 border-2 border-sky-200 p-4 sm:p-5 rounded-2xl mb-3 text-center">
         <p class="text-xl sm:text-2xl font-black text-sky-950 leading-relaxed mb-3">
           «اللام القمرية: هي لام <span class="bg-sky-200 text-sky-900 px-3 py-0.5 rounded-lg underline decoration-sky-500">تُكتب وتُنطق</span>، وتكون دائماً ساكنة (الْـ)، وحروفها مجموعة في: (ابغِ حجك وخف عقيمه).»
         </p>
         <div class="flex flex-wrap justify-center items-center gap-3 sm:gap-6 mt-2 pt-2 border-t border-sky-200/60">
-          <span class="text-base text-sky-800 font-bold">أمثلة سريعة:</span>
+          <span class="text-base text-sky-800 font-bold">أمثلة:</span>
           <button onclick="readWord('الْقَمَر')" class="btn-bounce bg-white border border-sky-300 px-4 py-1 rounded-xl text-lg font-black text-sky-900 shadow-sm flex items-center gap-1">
             <span>الْقَمَر</span> <span class="text-xs text-sky-600">🔊</span>
           </button>
@@ -303,7 +272,7 @@
         </div>
       </div>
 
-      <!-- بطاقة اسم المعلمة تحت الشرح مباشرة -->
+      <!-- اسم المعلمة تحت الشرح -->
       <div class="text-center mb-4">
         <span class="inline-flex items-center gap-2 bg-gradient-to-r from-sky-100 to-indigo-100 text-sky-900 px-5 py-2 rounded-2xl font-black text-base sm:text-lg border border-sky-300 shadow-sm">
           <span>👩‍🏫</span>
@@ -311,20 +280,19 @@
         </span>
       </div>
 
-      <!-- إطار فيديو القمر مباشرة تحت اسم المعلمة -->
+      <!-- فيديو اللام القمرية تحت اسم المعلمة -->
       <div class="w-full max-w-3xl mx-auto mb-6">
         <div class="video-frame relative flex items-center justify-center bg-slate-900 border-4 border-sky-300">
-          <video id="video-moon" class="w-full h-full object-contain" preload="metadata" playsinline controls>
-            <!-- مسارات الفيديو المتطابقة مع ما تم رفعه على GitHub -->
-            <source src="moon.mp4.mp4" type="video/mp4">
+          <video id="video-moon" class="w-full h-full object-contain" preload="auto" playsinline webkit-playsinline controls>
+            <!-- جميع احتمالات المسار في جيت هوب -->
             <source src="video/moon.mp4.mp4" type="video/mp4">
-            <source src="moon.mp4" type="video/mp4">
+            <source src="moon.mp4.mp4" type="video/mp4">
             <source src="video/moon.mp4" type="video/mp4">
+            <source src="moon.mp4" type="video/mp4">
             متصفحك لا يدعم تشغيل هذا الفيديو.
           </video>
         </div>
 
-        <!-- أزرار تحكم إضافية سهلة للأطفال -->
         <div class="flex flex-wrap items-center justify-between gap-2 mt-3 px-2">
           <div class="flex items-center gap-2">
             <button onclick="playCustomVideo('video-moon')" class="px-4 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-sm flex items-center gap-1 shadow">
@@ -338,13 +306,12 @@
             </button>
           </div>
           <label class="text-xs text-slate-500 cursor-pointer bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg border border-slate-300">
-            📁 استعراض فيديو القمر يدوياً
+            📁 استعراض الفيديو من جهازك
             <input type="file" accept="video/mp4,video/*" class="hidden" onchange="loadLocalVideo(event, 'video-moon')">
           </label>
         </div>
       </div>
 
-      <!-- أزرار التنقل -->
       <div class="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
         <button onclick="goToScreen('screen-home')" class="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-base flex items-center gap-2">
           <span>الرئيسية 🏠</span>
@@ -356,7 +323,7 @@
       </div>
     </div>
 
-    <!-- 3. نشاط البطاقات للكلمات القمرية -->
+    <!-- 3. بطاقات الكلمات القمرية -->
     <div id="screen-moon-cards" class="app-screen w-full flex-col bg-white/95 rounded-3xl p-4 sm:p-7 shadow-xl border border-sky-100">
       <div class="flex items-center justify-between pb-3 border-b border-sky-100 mb-4">
         <div>
@@ -368,7 +335,6 @@
         </button>
       </div>
 
-      <!-- شبكة البطاقات الخمسة -->
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 my-auto py-4">
         <button onclick="openWordCardModal('القمر', 'الْقَمَر', 'moon', 'اللام تُكتب وتُنطق بوضوح')" class="btn-bounce p-3 sm:p-4 rounded-2xl bg-gradient-to-b from-sky-50 to-sky-100/70 border-2 border-sky-200 hover:border-sky-400 flex flex-col items-center justify-center text-center shadow-sm">
           <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-2xl flex items-center justify-center text-4xl shadow-inner mb-2">🌕</div>
@@ -401,7 +367,6 @@
         </button>
       </div>
 
-      <!-- أزرار التنقل -->
       <div class="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
         <button onclick="goToScreen('screen-moon-intro')" class="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-base flex items-center gap-2">
           <span>السابق ➡️</span>
@@ -428,9 +393,6 @@
           <span class="text-4xl sm:text-5xl">🔊</span>
           <span class="text-lg sm:text-xl font-black">استماع</span>
         </button>
-        <span class="text-xs text-sky-700 mt-2 font-bold bg-sky-50 px-3 py-1 rounded-full border border-sky-200">
-          اضغطي للاستماع عدة مرات إذا أردتِ
-        </span>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-2xl mx-auto w-full my-4">
@@ -458,7 +420,7 @@
       </div>
     </div>
 
-    <!-- 5. شاشة تعريف اللام الشمسية وفيديو الشمس -->
+    <!-- 5. قسم اللام الشمسية (الشريحة الأولى: الشرح + اسم المعلمة + الفيديو) -->
     <div id="screen-sun-intro" class="app-screen w-full flex-col bg-white/95 rounded-3xl p-4 sm:p-7 shadow-xl border border-amber-100">
       <div class="flex items-center justify-between pb-3 border-b border-amber-100 mb-4">
         <div class="flex items-center gap-3">
@@ -468,19 +430,19 @@
             <p class="text-amber-700 font-semibold text-sm">الشرح التعليمي والمشاهدة</p>
           </div>
         </div>
-        <button onclick="readText('اللام الشمسية: لام تُكتب ولا تُنطق، والحرف الذي بعدها يكون مشدداً.')" class="p-2.5 rounded-xl bg-amber-100 text-amber-800 hover:bg-amber-200 transition font-bold text-sm flex items-center gap-1">
+        <button onclick="readText('اللام الشمسية: لام تُكتب ولا تُنطق، والحرف الذي يليها يكون مشدداً.')" class="p-2.5 rounded-xl bg-amber-100 text-amber-800 hover:bg-amber-200 transition font-bold text-sm flex items-center gap-1">
           <span>🔊</span>
           <span class="hidden sm:inline">استمعي للتعريف</span>
         </button>
       </div>
 
-      <!-- نص الشرح والقاعدة -->
+      <!-- الشرح -->
       <div class="bg-amber-50 border-2 border-amber-200 p-4 sm:p-5 rounded-2xl mb-3 text-center">
         <p class="text-xl sm:text-2xl font-black text-amber-950 leading-relaxed mb-3">
           «اللام الشمسية: هي لام <span class="bg-amber-200 text-amber-900 px-3 py-0.5 rounded-lg underline decoration-amber-500">تُكتب ولا تُنطق</span> أثناء القراءة، والحرف الذي يليها يكون دائماً حرفاً مُشدّداً ( ّ ).»
         </p>
         <div class="flex flex-wrap justify-center items-center gap-3 sm:gap-6 mt-2 pt-2 border-t border-amber-200/60">
-          <span class="text-base text-amber-800 font-bold">أمثلة سريعة:</span>
+          <span class="text-base text-amber-800 font-bold">أمثلة:</span>
           <button onclick="readWord('الشَّمْس')" class="btn-bounce bg-white border border-amber-300 px-4 py-1 rounded-xl text-lg font-black text-amber-900 shadow-sm flex items-center gap-1">
             <span>الشَّمْس</span> <span class="text-xs text-amber-600">🔊</span>
           </button>
@@ -493,7 +455,7 @@
         </div>
       </div>
 
-      <!-- بطاقة اسم المعلمة تحت الشرح مباشرة -->
+      <!-- اسم المعلمة تحت الشرح -->
       <div class="text-center mb-4">
         <span class="inline-flex items-center gap-2 bg-gradient-to-r from-amber-100 to-orange-100 text-amber-900 px-5 py-2 rounded-2xl font-black text-base sm:text-lg border border-amber-300 shadow-sm">
           <span>👩‍🏫</span>
@@ -501,20 +463,19 @@
         </span>
       </div>
 
-      <!-- إطار فيديو الشمس مباشرة تحت اسم المعلمة -->
+      <!-- فيديو اللام الشمسية تحت اسم المعلمة -->
       <div class="w-full max-w-3xl mx-auto mb-6">
         <div class="video-frame relative flex items-center justify-center bg-slate-900 border-4 border-amber-300">
-          <video id="video-sun" class="w-full h-full object-contain" preload="metadata" playsinline controls>
-            <!-- مسارات الفيديو المتطابقة مع ما تم رفعه على GitHub -->
-            <source src="sun.mp4.mp4" type="video/mp4">
+          <video id="video-sun" class="w-full h-full object-contain" preload="auto" playsinline webkit-playsinline controls>
+            <!-- جميع احتمالات المسار في جيت هوب -->
             <source src="video/sun.mp4.mp4" type="video/mp4">
-            <source src="sun.mp4" type="video/mp4">
+            <source src="sun.mp4.mp4" type="video/mp4">
             <source src="video/sun.mp4" type="video/mp4">
+            <source src="sun.mp4" type="video/mp4">
             متصفحك لا يدعم تشغيل هذا الفيديو.
           </video>
         </div>
 
-        <!-- أزرار تحكم إضافية سهلة للأطفال -->
         <div class="flex flex-wrap items-center justify-between gap-2 mt-3 px-2">
           <div class="flex items-center gap-2">
             <button onclick="playCustomVideo('video-sun')" class="px-4 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm flex items-center gap-1 shadow">
@@ -528,13 +489,12 @@
             </button>
           </div>
           <label class="text-xs text-slate-500 cursor-pointer bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg border border-slate-300">
-            📁 استعراض فيديو الشمس يدوياً
+            📁 استعراض الفيديو من جهازك
             <input type="file" accept="video/mp4,video/*" class="hidden" onchange="loadLocalVideo(event, 'video-sun')">
           </label>
         </div>
       </div>
 
-      <!-- أزرار التنقل -->
       <div class="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
         <button onclick="goToScreen('screen-home')" class="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-base flex items-center gap-2">
           <span>الرئيسية 🏠</span>
@@ -553,7 +513,7 @@
           <h2 class="text-2xl sm:text-3xl font-black text-amber-900">بطاقات الكلمات الشمسية ☀️</h2>
           <p class="text-slate-600 font-semibold text-sm">اضغطي على أي بطاقة لاكتشاف الكلمة ونطقها:</p>
         </div>
-        <button onclick="readText('اضغطي على أي بطاقة لتشاهدي الكلمة الشمسية وتسمعي نطقها')" class="p-2 rounded-xl bg-amber-100 text-amber-800 text-sm font-bold">
+        <button onclick="readText('اضغطي على أي بطاقة لتشاهدي الكلمة وتسمعي نطقها')" class="p-2 rounded-xl bg-amber-100 text-amber-800 text-sm font-bold">
           🔊 تعليمات
         </button>
       </div>
@@ -608,7 +568,7 @@
           🎮 نشاط تفاعلي ممتع
         </span>
         <h2 class="text-2xl sm:text-3xl font-black text-slate-800">صنّفي الكلمات في سلة القمر أو سلة الشمس</h2>
-        <p class="text-slate-600 text-sm">اسحبي الكلمة للصندوق المناسب أو اضغطي عليها ثم اختاري الصندوق:</p>
+        <p class="text-slate-600 text-sm">اسحبي الكلمة أو اضغطي عليها ثم اختاري الصندوق المناسب:</p>
       </div>
 
       <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-3 sm:p-4 mb-4 min-h-20 flex flex-wrap items-center justify-center gap-2 sm:gap-3" id="words-source-container">
@@ -647,9 +607,7 @@
         💡 يمكنك سحب الكلمة، أو الضغط عليها ثم الضغط على الصندوق المناسب
       </div>
 
-      <!-- الصناديق -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1 my-2">
-        <!-- صندوق القمر -->
         <div id="box-moon" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, 'moon')" onclick="handleBoxClick('moon')" class="border-3 border-dashed border-sky-400 bg-sky-50/70 hover:bg-sky-100/80 rounded-3xl p-4 flex flex-col transition cursor-pointer relative min-h-[170px]">
           <div class="flex items-center justify-between pb-2 border-b border-sky-200">
             <span class="text-2xl">🌙</span>
@@ -659,7 +617,6 @@
           <div id="moon-words-list" class="flex flex-wrap gap-2 mt-3 items-start content-start flex-1"></div>
         </div>
 
-        <!-- صندوق الشمس -->
         <div id="box-sun" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, 'sun')" onclick="handleBoxClick('sun')" class="border-3 border-dashed border-amber-400 bg-amber-50/70 hover:bg-amber-100/80 rounded-3xl p-4 flex flex-col transition cursor-pointer relative min-h-[170px]">
           <div class="flex items-center justify-between pb-2 border-b border-amber-200">
             <span class="text-2xl">☀️</span>
@@ -672,13 +629,12 @@
 
       <div id="classify-feedback" class="text-center font-extrabold text-lg min-h-8"></div>
 
-      <!-- أزرار التنقل -->
       <div class="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
         <button onclick="goToScreen('screen-sun-intro')" class="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-base flex items-center gap-2">
           <span>السابق ➡️</span>
         </button>
         <button onclick="goToScreen('screen-quiz')" class="btn-bounce px-7 py-3 rounded-2xl bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-extrabold text-lg shadow-kid border-b-4 border-purple-800 flex items-center gap-2">
-          <span>التالي: التحدي الختامي</span>
+          <span>التالي: الاختبار النهائي</span>
           <span>📝</span>
         </button>
       </div>
@@ -713,7 +669,6 @@
         </div>
       </div>
 
-      <!-- نتيجة التحدي النهائية -->
       <div id="quiz-result-area" class="hidden w-full max-w-lg mx-auto text-center my-auto p-6 sm:p-8 bg-gradient-to-b from-purple-50 to-pink-50 rounded-3xl border-3 border-purple-200 shadow-lg">
         <div class="text-6xl sm:text-7xl mb-3 animate-float">🎉</div>
         <h3 id="quiz-result-title" class="text-3xl sm:text-4xl font-black text-purple-950 mb-2">
@@ -748,7 +703,7 @@
 
   </main>
 
-  <!-- ==================== نافذة منبثقة تفاعلية للبطاقات ==================== -->
+  <!-- نافذة البطاقات المنبثقة -->
   <div id="word-card-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 text-center shadow-2xl border-4 border-white relative animate-float">
       <button onclick="closeWordCardModal()" class="absolute top-4 left-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-xl flex items-center justify-center">
@@ -781,7 +736,7 @@
     </div>
   </div>
 
-  <!-- ==================== نافذة التغذية الراجعة ==================== -->
+  <!-- نافذة التغذية الراجعة -->
   <div id="feedback-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
     <div id="feedback-modal-box" class="bg-white rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl border-4 transition-all">
       <div id="feedback-modal-icon" class="text-6xl mb-2">⭐</div>
@@ -793,7 +748,7 @@
     </div>
   </div>
 
-  <!-- ==================== ذيل الصفحة العام ==================== -->
+  <!-- ذيل الصفحة -->
   <footer class="w-full max-w-6xl mx-auto bg-white/70 backdrop-blur-sm rounded-2xl p-3 mt-3 border border-slate-200/60 text-center flex flex-col sm:flex-row items-center justify-between gap-2 text-xs sm:text-sm text-slate-600">
     <div class="flex items-center gap-2 font-bold text-slate-700">
       <span>🌸 تم التصميم والإعداد بعناية لمساعدة الطالبات</span>
@@ -803,12 +758,13 @@
     </div>
   </footer>
 
-  <!-- ==================== جافاسكريبت التشغيل التفاعلي ==================== -->
+  <!-- ==================== برمجية التفاعل ==================== -->
   <script>
     let currentScreenId = 'screen-home';
     let narrationEnabled = true;
-    let selectedItemForDrop = null;
+    let selectedWordElement = null;
     let audioContext = null;
+    let availableVoices = [];
 
     function getAudioContext() {
       if (!audioContext) {
@@ -819,6 +775,30 @@
       }
       return audioContext;
     }
+
+    // جلب وحفظ أصوات النطق
+    function loadVoices() {
+      if ('speechSynthesis' in window) {
+        availableVoices = window.speechSynthesis.getVoices();
+      }
+    }
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+      loadVoices();
+    }
+
+    // تفعيل قفل الصوت في الجوال والآيباد فور أول لمسة
+    function unlockMobileAudio() {
+      getAudioContext();
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.resume();
+        const silentUtterance = new SpeechSynthesisUtterance('');
+        window.speechSynthesis.speak(silentUtterance);
+      }
+      loadVoices();
+    }
+    document.addEventListener('touchstart', unlockMobileAudio, { once: true });
+    document.addEventListener('click', unlockMobileAudio, { once: true });
 
     function playCheerChime() {
       try {
@@ -861,19 +841,29 @@
       } catch (e) {}
     }
 
+    // دالة النطق المتوافقة مع أجهزة الجوال والكمبيوتر
     function speakText(text) {
       if (!narrationEnabled || !('speechSynthesis' in window)) return;
+      
       window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'ar-SA';
-      utterance.rate = 0.85;
-      utterance.pitch = 1.1;
 
-      const voices = window.speechSynthesis.getVoices();
-      const arabicVoice = voices.find(v => v.lang.startsWith('ar'));
-      if (arabicVoice) utterance.voice = arabicVoice;
+      setTimeout(() => {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'ar-SA';
+        utterance.rate = 0.85;
+        utterance.pitch = 1.0;
 
-      window.speechSynthesis.speak(utterance);
+        if (availableVoices.length === 0) {
+          availableVoices = window.speechSynthesis.getVoices();
+        }
+
+        const arabicVoice = availableVoices.find(v => v.lang && (v.lang.startsWith('ar') || v.lang.includes('SA')));
+        if (arabicVoice) {
+          utterance.voice = arabicVoice;
+        }
+
+        window.speechSynthesis.speak(utterance);
+      }, 50);
     }
 
     function readText(text) { speakText(text); }
@@ -1035,7 +1025,6 @@
       }
     }
 
-    let selectedWordElement = null;
     let classifiedCounts = { moon: 0, sun: 0 };
 
     function selectWordForClassification(el) {
