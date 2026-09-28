@@ -244,7 +244,7 @@
       </p>
     </div>
 
-    <!-- 2. شريحة اللام القمرية الأولى (الشرح + اسم المعلمة + الفيديو) -->
+    <!-- 2. شريحة اللام القمرية الأولى -->
     <div id="screen-moon-intro" class="app-screen w-full flex-col bg-white/95 rounded-3xl p-4 sm:p-7 shadow-xl border border-sky-100">
       <div class="flex items-center justify-between pb-3 border-b border-sky-100 mb-4">
         <div class="flex items-center gap-3">
@@ -287,14 +287,12 @@
         </span>
       </div>
 
-      <!-- فيديو اللام القمرية تحت اسم المعلمة مباشرة -->
+      <!-- فيديو اللام القمرية -->
       <div class="w-full max-w-3xl mx-auto mb-6">
         <div class="video-frame relative flex items-center justify-center bg-slate-900 border-4 border-sky-300">
           <video id="video-moon" class="w-full h-full object-contain" preload="auto" playsinline webkit-playsinline controls>
-            <!-- مسار الفيديو الدقيق داخل مجلد videos -->
             <source src="videos/moon.mp4" type="video/mp4">
             <source src="videos/moon.mp4.mp4" type="video/mp4">
-            <source src="moon.mp4" type="video/mp4">
             متصفحك لا يدعم تشغيل هذا الفيديو.
           </video>
         </div>
@@ -426,7 +424,7 @@
       </div>
     </div>
 
-    <!-- 5. شريحة اللام الشمسية الأولى (الشرح + اسم المعلمة + الفيديو) -->
+    <!-- 5. شريحة اللام الشمسية الأولى -->
     <div id="screen-sun-intro" class="app-screen w-full flex-col bg-white/95 rounded-3xl p-4 sm:p-7 shadow-xl border border-amber-100">
       <div class="flex items-center justify-between pb-3 border-b border-amber-100 mb-4">
         <div class="flex items-center gap-3">
@@ -469,14 +467,12 @@
         </span>
       </div>
 
-      <!-- فيديو اللام الشمسية تحت اسم المعلمة مباشرة -->
+      <!-- فيديو اللام الشمسية -->
       <div class="w-full max-w-3xl mx-auto mb-6">
         <div class="video-frame relative flex items-center justify-center bg-slate-900 border-4 border-amber-300">
           <video id="video-sun" class="w-full h-full object-contain" preload="auto" playsinline webkit-playsinline controls>
-            <!-- مسار الفيديو الدقيق داخل مجلد videos -->
             <source src="videos/sun.mp4" type="video/mp4">
             <source src="videos/sun.mp4.mp4" type="video/mp4">
-            <source src="sun.mp4" type="video/mp4">
             متصفحك لا يدعم تشغيل هذا الفيديو.
           </video>
         </div>
@@ -769,37 +765,24 @@
     let narrationEnabled = true;
     let selectedWordElement = null;
     let audioContext = null;
-    let availableVoices = [];
+    let activeAudioPlayer = new Audio(); // مشغل الصوت الحقيقي للجوال
 
     function getAudioContext() {
       if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
       }
-      if (audioContext.state === 'suspended') {
+      if (audioContext && audioContext.state === 'suspended') {
         audioContext.resume();
       }
       return audioContext;
     }
 
-    function loadVoices() {
-      if ('speechSynthesis' in window) {
-        availableVoices = window.speechSynthesis.getVoices();
-      }
-    }
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.onvoiceschanged = loadVoices;
-      loadVoices();
-    }
-
-    // تفعيل قفل الصوت في الجوال والآيباد فور أول لمسة
+    // تفعيل إذن الصوت في الجوال والآيباد فور أول لمسة للشاشة
     function unlockMobileAudio() {
       getAudioContext();
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.resume();
-        const silentUtterance = new SpeechSynthesisUtterance('');
-        window.speechSynthesis.speak(silentUtterance);
+      if (activeAudioPlayer) {
+        activeAudioPlayer.play().catch(() => {});
       }
-      loadVoices();
     }
     document.addEventListener('touchstart', unlockMobileAudio, { once: true });
     document.addEventListener('click', unlockMobileAudio, { once: true });
@@ -845,27 +828,42 @@
       } catch (e) {}
     }
 
+    /* 
+      محرك النطق المزدوج (Dual Audio Engine):
+      يستخدم نطقاً صوتياً عربياً استوديو (نفس طريقة تشغيل صوت الفيديو بالضبط)
+      بحيث يعمل على الآيفون وأندرويد وأي جهاز دون الحاجة لأي حزمة لغات مثبتة.
+    */
     function speakText(text) {
-      if (!narrationEnabled || !('speechSynthesis' in window)) return;
-      window.speechSynthesis.cancel();
+      if (!narrationEnabled || !text) return;
 
-      setTimeout(() => {
+      const cleanText = text.trim();
+      const onlineAudioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=ar&client=tw-ob&q=${encodeURIComponent(cleanText)}`;
+
+      try {
+        activeAudioPlayer.pause();
+        activeAudioPlayer.src = onlineAudioUrl;
+        const playPromise = activeAudioPlayer.play();
+
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            // حل بديل فوري للمتصفحات القديمة
+            speakNativeFallback(cleanText);
+          });
+        }
+      } catch (e) {
+        speakNativeFallback(cleanText);
+      }
+    }
+
+    // احتياطي داخلي
+    function speakNativeFallback(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'ar-SA';
         utterance.rate = 0.85;
-        utterance.pitch = 1.0;
-
-        if (availableVoices.length === 0) {
-          availableVoices = window.speechSynthesis.getVoices();
-        }
-
-        const arabicVoice = availableVoices.find(v => v.lang && (v.lang.startsWith('ar') || v.lang.includes('SA')));
-        if (arabicVoice) {
-          utterance.voice = arabicVoice;
-        }
-
         window.speechSynthesis.speak(utterance);
-      }, 50);
+      }
     }
 
     function readText(text) { speakText(text); }
@@ -881,7 +879,8 @@
         btn.classList.replace('text-rose-800', 'text-emerald-800');
         speakText('تم تفعيل الصوت');
       } else {
-        window.speechSynthesis.cancel();
+        activeAudioPlayer.pause();
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
         icon.innerText = '🔇';
         btn.classList.replace('bg-emerald-50', 'bg-rose-50');
         btn.classList.replace('text-emerald-800', 'text-rose-800');
