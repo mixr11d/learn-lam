@@ -133,7 +133,7 @@
           <span>🏠</span>
           <span>الرئيسية</span>
         </button>
-        <button onclick="toggleAudioNarration()" id="narration-toggle-btn" class="px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-sm flex items-center gap-1 transition" title="تشغيل / كتم الصوت التلقائي">
+        <button onclick="toggleAudioNarration()" id="narration-toggle-btn" class="px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-sm flex items-center gap-1 transition" title="تشغيل / كتم الصوت">
           <span id="narration-icon">🔊</span>
           <span class="hidden sm:inline">نطق الكلمات</span>
         </button>
@@ -765,7 +765,6 @@
     let narrationEnabled = true;
     let selectedWordElement = null;
     let audioContext = null;
-    let activeAudioPlayer = new Audio(); // مشغل الصوت الحقيقي للجوال
 
     function getAudioContext() {
       if (!audioContext) {
@@ -777,11 +776,14 @@
       return audioContext;
     }
 
-    // تفعيل إذن الصوت في الجوال والآيباد فور أول لمسة للشاشة
+    // تفعيل فوري لمحرك الصوت في الجوال عند أول تفاعل
     function unlockMobileAudio() {
       getAudioContext();
-      if (activeAudioPlayer) {
-        activeAudioPlayer.play().catch(() => {});
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.resume();
+        const dummy = new SpeechSynthesisUtterance('');
+        dummy.volume = 0;
+        window.speechSynthesis.speak(dummy);
       }
     }
     document.addEventListener('touchstart', unlockMobileAudio, { once: true });
@@ -829,41 +831,34 @@
     }
 
     /* 
-      محرك النطق المزدوج (Dual Audio Engine):
-      يستخدم نطقاً صوتياً عربياً استوديو (نفس طريقة تشغيل صوت الفيديو بالضبط)
-      بحيث يعمل على الآيفون وأندرويد وأي جهاز دون الحاجة لأي حزمة لغات مثبتة.
+      دالة النطق المخصصة لجوالات الآيفون وأندرويد والكمبيوتر:
+      تنفيذ متزامن مباشر داخل تفاعل المستخدم لمنع حظر الصوت.
     */
     function speakText(text) {
       if (!narrationEnabled || !text) return;
+      if (!('speechSynthesis' in window)) return;
+
+      const synth = window.speechSynthesis;
+      if (synth.paused) {
+        synth.resume();
+      }
 
       const cleanText = text.trim();
-      const onlineAudioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=ar&client=tw-ob&q=${encodeURIComponent(cleanText)}`;
+      const utterance = new SpeechSynthesisUtterance(cleanText);
+      utterance.lang = 'ar-SA';
+      utterance.rate = 0.85;
+      utterance.pitch = 1.0;
 
-      try {
-        activeAudioPlayer.pause();
-        activeAudioPlayer.src = onlineAudioUrl;
-        const playPromise = activeAudioPlayer.play();
-
-        if (playPromise !== undefined) {
-          playPromise.catch(() => {
-            // حل بديل فوري للمتصفحات القديمة
-            speakNativeFallback(cleanText);
-          });
+      // اختيار الصوت المناسب دون التسبب في تجميد المحرك على الآيفون
+      const voices = synth.getVoices();
+      if (voices && voices.length > 0) {
+        const arVoice = voices.find(v => v.lang && (v.lang === 'ar-SA' || v.lang.startsWith('ar')));
+        if (arVoice) {
+          utterance.voice = arVoice;
         }
-      } catch (e) {
-        speakNativeFallback(cleanText);
       }
-    }
 
-    // احتياطي داخلي
-    function speakNativeFallback(text) {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'ar-SA';
-        utterance.rate = 0.85;
-        window.speechSynthesis.speak(utterance);
-      }
+      synth.speak(utterance);
     }
 
     function readText(text) { speakText(text); }
@@ -879,7 +874,6 @@
         btn.classList.replace('text-rose-800', 'text-emerald-800');
         speakText('تم تفعيل الصوت');
       } else {
-        activeAudioPlayer.pause();
         if ('speechSynthesis' in window) window.speechSynthesis.cancel();
         icon.innerText = '🔇';
         btn.classList.replace('bg-emerald-50', 'bg-rose-50');
